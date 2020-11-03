@@ -12,5 +12,8 @@ Projet python mastère UTT EFC 2020
 ## Cheat sheet Github
 https://education.github.com/git-cheat-sheet-education.pdf
 
+## Cheat sheet Pandas
+https://s3.amazonaws.com/dq-blog-files/pandas-cheat-sheet.pdf
+
 
 
