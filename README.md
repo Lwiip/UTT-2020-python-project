@@ -10,7 +10,7 @@ et l’export en CSV.
 
 ## TODO
 - Import file (different files needs to be handle txt, csv.. with different delimiter, autodetection of the delimiter, options for the user to set his own delimiter)
-- Filtering based on the regex inputs from the user (multiple collumns regex matching, select or deselect collumns)
+- Filtering based on the regex inputs from the user (multiple collumns regex matching, select or deselect collumns, trier orde alpha...)
 - export a file after filtering with regex pattern
 - GUI
 

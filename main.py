@@ -20,10 +20,9 @@ for header in headers:
     dfilter["cselect_{0}".format(header)] = True
 #Random regex pattern, this will come from the user
 dfilter['cregex_nom']='quartier'
-dfilter['cregex_lieu']='Louis'
 dfilter['cregex_contact']='^iss.*'
 #Random select, this will come from the user
-dfilter['cselect_nom']=False
+dfilter['cselect_nom']=True
 
 
 ##########################
