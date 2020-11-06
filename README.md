@@ -1,6 +1,12 @@
 # UTT-2020-python-project
 Projet python mastère UTT EFC 2020
 
+## Sujet 2: Analyse de logs multicritères
+On souhaite écrire un programme qui va ouvrir un fichier de logs (avec entête), et trier les
+données : vous proposerez un menu déroulant avec les différents éléments présents. Le
+programme permettra les recherches multicritères, ainsi que la sauvegarde des résultats,
+et l’export en CSV.
+
 
 ## TODO
 - Import file (different files needs to be handle txt, csv.. with different delimiter, autodetection of the delimiter, options for the user to set his own delimiter)
