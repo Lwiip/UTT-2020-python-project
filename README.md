@@ -15,6 +15,14 @@ et l’export en CSV.
 - GUI
 
 
+## Github command
+git pull
+git status
+git add ce_que_l'on_veut_ajouter
+git commit -m "mon commit blablabla"
+git push
+
+
 ## Cheat sheet Github
 https://education.github.com/git-cheat-sheet-education.pdf
 
