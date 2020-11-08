@@ -1,12 +1,36 @@
 import pandas as pd 
-import datetime
 import filtering
+import argparse
+import sys
+import os
 
 ##########################
 #Import file and get headers from the file
 ##########################
 #Import data with specific delimiter as a panda dataframe
-dfdata = pd.read_csv("sites-agriculture-urbaine.csv",sep=';')
+parser = argparse.ArgumentParser()
+parser.add_argument("-f", "--file", help="Indicate the csv or txt file to be processed")   
+parser.add_argument("-d", "--delimiter", help='Specify the file delimiter. By default the delimiter is ";" [Example: -d ","]')   
+args = parser.parse_args()
+if args.file:
+    filename=args.file #Retrieving the file specified in the command line
+else:
+    print ("error: indicate the csv or txt filename to be processed")
+    sys.exit()
+
+if args.delimiter:
+    sepfile=args.delimiter #Retrieve the delimiter specified in the command line 
+else:
+    #Default Delimiter ";"
+    sepfile="\;"
+
+#Checks if the file specified in the command line exists 
+if not os.path.isfile(filename):
+    print (filename,": File not found")
+    sys.exit()
+
+dfdata = pd.read_csv(filename,sep=sepfile,engine='python')
+
 #Copy the dataframe
 dfdataworking = dfdata.copy()
 
