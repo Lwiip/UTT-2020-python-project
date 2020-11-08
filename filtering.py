@@ -1,5 +1,7 @@
 import pandas as pd 
 
+
+
 '''
 Not optimized because recalculate each time all columns, change needed
 '''
