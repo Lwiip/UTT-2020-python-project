@@ -5,7 +5,7 @@ import pandas as pd
 '''
 Not optimized because recalculate each time all columns, change needed
 '''
-def applyregex(df, dfilter):
+def applyRegex(df, dfilter):
     #Change all the types of the dataframe to str, needed for apply contains function
     df.applymap(str)
     nulpattern = '.*'
@@ -23,7 +23,7 @@ def applyregex(df, dfilter):
 
 
 
-def applyselection(df, dfilter):
+def applySelection(df, dfilter):
 
     headers = list(df.columns) 
 
@@ -39,7 +39,7 @@ def applyselection(df, dfilter):
 '''
 Sort by dates needs to be implemented
 '''
-def applysort(df, asort, dfilter):
+def applySort(df, asort, dfilter):
 
     sorttype = []
     asortupper = []
