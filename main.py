@@ -1,11 +1,12 @@
 import pandas as pd 
 import filtering
+import date
 import argparse
 import sys
 import os
 
 ##########################
-#Import file and get headers from the file
+#Import file, set delimiter, find and convert dates
 ##########################
 #Import data with specific delimiter as a panda dataframe
 parser = argparse.ArgumentParser()
@@ -31,12 +32,17 @@ if not os.path.isfile(filename):
 
 dfdata = pd.read_csv(filename,sep=sepfile,engine='python')
 
+
+
 #Copy the dataframe
 dfdataworking = dfdata.copy()
-
 #Get list of headers from the file imported
 headers = list(dfdataworking.columns)
-dfdataworking['date'] = pd.to_datetime(dfdataworking['date'])
+
+#auto detect dates and convert columns to date format is date
+dfdataworking = date.columnIsDate(dfdataworking,headers)
+
+
 
 
 ##########################
@@ -71,17 +77,17 @@ print(dfdataworking)
 print("-------------------------------")
 
 #Apply sorting
-dfdataworking = filtering.applysort(dfdataworking, asort, dfilter)
+dfdataworking = filtering.applySort(dfdataworking, asort, dfilter)
 print(dfdataworking)
 print("-------------------------------")
 
 #Apply selection
-dfdataworking = filtering.applyselection(dfdataworking, dfilter)
+dfdataworking = filtering.applySelection(dfdataworking, dfilter)
 print(dfdataworking)
 print("-------------------------------")
 
 #Apply regex
-dfdataregex = filtering.applyregex(dfdataworking, dfilter)
+dfdataregex = filtering.applyRegex(dfdataworking, dfilter)
 print(dfdataregex)
 
 ##########################
