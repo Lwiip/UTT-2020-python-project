@@ -1,13 +1,18 @@
 import pandas as pd 
+import datetime
 import filtering
 
 ##########################
 #Import file and get headers from the file
 ##########################
 #Import data with specific delimiter as a panda dataframe
-dfdata = pd.read_csv("sites-agriculture-urbaine.csv",sep=';') 
+dfdata = pd.read_csv("sites-agriculture-urbaine.csv",sep=';')
+#Copy the dataframe
+dfdataworking = dfdata.copy()
+
 #Get list of headers from the file imported
-headers = list(dfdata.columns) 
+headers = list(dfdataworking.columns)
+dfdataworking['date'] = pd.to_datetime(dfdataworking['date'])
 
 
 ##########################
@@ -15,7 +20,7 @@ headers = list(dfdata.columns)
 ##########################
 #Array sorting
 asort = []
-asort = ['nom','lieu','cp']
+asort = ['date']
 
 #Create dictionnary, key is the columns of the file, value is the regex pattern, boolean value (print or not print), boolean value (ascending, descnedning or None sorting)
 dfilter = {}
@@ -29,16 +34,15 @@ dfilter['cregex_contact']='^iss.*'
 #Random select, this will come from the user
 dfilter['cselect_nom']=False
 #Random sort, this will ccome from the user
-dfilter['csort_nom']=False
-dfilter['csort_lieu']=True
-dfilter['csort_cp']=True
+#dfilter['csort_nom']=False
+#dfilter['csort_lieu']=True
+dfilter['csort_date']=True
 
 
 
 ##########################
 #Apply inputs from user
 ##########################
-dfdataworking = dfdata.copy()
 print(dfdataworking)
 print("-------------------------------")
 
