@@ -33,7 +33,6 @@ if not os.path.isfile(filename):
 dfdata = pd.read_csv(filename,sep=sepfile,engine='python')
 
 
-
 #Copy the dataframe
 dfdataworking = dfdata.copy()
 #Get list of headers from the file imported
@@ -68,28 +67,6 @@ for header in headers:
         dfilter["cregex_{0}".format(header)] = '.*'
     
 
-'''
-#Array sorting
-asort = ['date']
-
-#Create dictionnary, key is the columns of the file, value is the regex pattern, boolean value (print or not print), boolean value (ascending, descnedning or None sorting)
-dfilter = {}
-for header in headers:
-    dfilter["cregex_{0}".format(header)] = '.*'
-    dfilter["cselect_{0}".format(header)] = True
-    dfilter["csort_{0}".format(header)] = None
-#Random regex pattern, this will come from the user
-dfilter['cregex_nom']='quartier'
-dfilter['cregex_contact']='^iss.*'
-#Random select, this will come from the user
-dfilter['cselect_nom']=False
-#Random sort, this will come from the user
-#dfilter['csort_nom']=False
-#dfilter['csort_lieu']=True
-dfilter['csort_date']=True
-'''
-
-
 ##########################
 #Apply inputs from user
 ##########################
@@ -116,6 +93,30 @@ print(dfdataregex)
 ##########################
 
 
+
+##########################
+#Poubelle
+##########################
+'''
+#Array sorting
+asort = ['date']
+
+#Create dictionnary, key is the columns of the file, value is the regex pattern, boolean value (print or not print), boolean value (ascending, descnedning or None sorting)
+dfilter = {}
+for header in headers:
+    dfilter["cregex_{0}".format(header)] = '.*'
+    dfilter["cselect_{0}".format(header)] = True
+    dfilter["csort_{0}".format(header)] = None
+#Random regex pattern, this will come from the user
+dfilter['cregex_nom']='quartier'
+dfilter['cregex_contact']='^iss.*'
+#Random select, this will come from the user
+dfilter['cselect_nom']=False
+#Random sort, this will come from the user
+#dfilter['csort_nom']=False
+#dfilter['csort_lieu']=True
+dfilter['csort_date']=True
+'''
 
 
 
