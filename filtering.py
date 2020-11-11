@@ -29,7 +29,7 @@ def applySelection(df, dfilter):
 
     for header in headers:
         selection = dfilter["cselect_{0}".format(header)]
-        if not selection:
+        if selection:
             del df[header]
 
     return df
@@ -46,7 +46,7 @@ def applySort(df, asort, dfilter):
     asortcustom = []
 
     for sortcolumn in asort:
-        #Create array for the type of sorting (True ascending, Fasle descending)
+        #Create array for the type of sorting (True ascending, False descending)
         sorttype.append(dfilter["csort_{0}".format(sortcolumn)])
 
         #check if the column is of type object
