@@ -44,12 +44,32 @@ dfdataworking = date.columnIsDate(dfdataworking,headers)
 
 
 
-
 ##########################
 #Get info from user
 ##########################
-#Array sorting
+print(dfdataworking[:5])
+
+dfilter = {}
 asort = []
+for header in headers:
+    print("-------------------column: {0}, choice, if null press enter".format(header))
+
+    dfilter["cselect_{0}".format(header)] = bool(input ("Do you want to delete the column (True if yes): "))
+    if dfilter["cselect_{0}".format(header)] == '':
+        dfilter["cslect_{0}".format(header)] = False
+
+    sort = input ("Do you want to sort this column (enter yes or no, default is no): ")
+    if sort == 'yes':
+        asort.append(header)
+        dfilter["csort_{0}".format(header)] = bool(input ("True for ascending, False for descending: "))
+
+    dfilter["cregex_{0}".format(header)] = input ("Enter a regex: ")
+    if dfilter["cregex_{0}".format(header)] == '':
+        dfilter["cregex_{0}".format(header)] = '.*'
+    
+
+'''
+#Array sorting
 asort = ['date']
 
 #Create dictionnary, key is the columns of the file, value is the regex pattern, boolean value (print or not print), boolean value (ascending, descnedning or None sorting)
@@ -63,30 +83,31 @@ dfilter['cregex_nom']='quartier'
 dfilter['cregex_contact']='^iss.*'
 #Random select, this will come from the user
 dfilter['cselect_nom']=False
-#Random sort, this will ccome from the user
+#Random sort, this will come from the user
 #dfilter['csort_nom']=False
 #dfilter['csort_lieu']=True
 dfilter['csort_date']=True
-
+'''
 
 
 ##########################
 #Apply inputs from user
 ##########################
+print("------------------------------- Init")
 print(dfdataworking)
-print("-------------------------------")
-
-#Apply sorting
-dfdataworking = filtering.applySort(dfdataworking, asort, dfilter)
-print(dfdataworking)
-print("-------------------------------")
 
 #Apply selection
+print("------------------------------- Selection")
 dfdataworking = filtering.applySelection(dfdataworking, dfilter)
 print(dfdataworking)
-print("-------------------------------")
+
+#Apply sorting
+print("------------------------------- Sorting")
+dfdataworking = filtering.applySort(dfdataworking, asort, dfilter)
+print(dfdataworking)
 
 #Apply regex
+print("------------------------------- Regex")
 dfdataregex = filtering.applyRegex(dfdataworking, dfilter)
 print(dfdataregex)
 
