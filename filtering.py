@@ -1,12 +1,15 @@
 import pandas as pd 
 
 
-
-'''
-Not optimized because recalculate each time all columns, change needed
-'''
 def applyRegex(df, dfilter):
-    #Change all the types of the dataframe to str, needed for apply contains function
+    """
+    Return a dataframe with regex applied
+
+    :param df: dataframe, dataframe under filtering
+    :param dfilter: dictionnary, dictionnary with inputs from the user (including regex)
+    """
+
+    #Change all the types of the dataframe to str, needed to apply contains function
     df.applymap(str)
     nulpattern = '.*'
 
@@ -17,8 +20,12 @@ def applyRegex(df, dfilter):
         
         if pattern != nulpattern:
             #print("=>>>>>>>>>>>>>>>>>>>>>>> ",pattern)
-            if df[header].dtypes != object:
+            if df[header].dtypes == 'datetime64[ns]':
+                #if the type of the column is date, need to first translate it to string to apply regex.
                 df = df[df[header].apply(lambda x: x.strftime('%Y-%m-%d')).str.contains(pattern)==True]
+            elif df[header].dtypes != object:
+                #if the type of the column is not object (for example int) need to first translate it to string to apply regex.
+                df = df[df[header].apply(str).str.contains(pattern)==True]
             else:
                 df = df[df[header].str.contains(pattern)==True]
 
@@ -27,22 +34,32 @@ def applyRegex(df, dfilter):
 
 
 def applySelection(df, dfilter):
+    """
+    Return a dataframe with selection applied
+
+    :param df: dataframe, dataframe under filtering
+    :param dfilter: dictionnary, dictionnary with inputs from the user (including selections of columns)
+    """
 
     headers = list(df.columns) 
 
     for header in headers:
         selection = dfilter["cselect_{0}".format(header)]
         if selection:
+            #delete the column
             del df[header]
 
     return df
 
 
-
-'''
-Sort by dates needs to be implemented
-'''
 def applySort(df, asort, dfilter):
+    """
+    Return a dataframe with Sorting applied
+
+    :param df: dataframe, dataframe under filtering
+    :param asort: array, sepeify which colummn needs to be sorted
+    :param dfilter: dictionnary, dictionnary with inputs from the user (including type of sort (ascending or descending)
+    """
 
     sorttype = []
     asortupper = []
