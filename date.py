@@ -3,11 +3,20 @@ import pandas as pd
 
 
 def columnIsDate(df,headers):
+    '''
+    Return dataframe with updated types
+
+    :param df:dataframe, dataframe from the file imported
+    :param headers:array, headers from the file imported
+    '''
     count = 0
+    #Lecture de la première ligne de données
     for i in df.iloc[0]:
         i = str(i)
+        #check if the format is a date
         if isDate(i):
             columnheader = headers[count]
+            #type of the column to a date format
             df[columnheader] = pd.to_datetime(df[columnheader])
             count=count+1
         else:

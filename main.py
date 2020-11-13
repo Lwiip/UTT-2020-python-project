@@ -38,10 +38,8 @@ dfdata = pd.read_csv(filename,sep=sepfile,engine='python')
 dfdataworking = dfdata.copy()
 #Get list of headers from the file imported
 headers = list(dfdataworking.columns)
-
-#auto detect dates and convert columns to date format is date
+#auto detect dates and convert columns to date format if date
 dfdataworking = date.columnIsDate(dfdataworking,headers)
-
 
 
 ##############################################################################
@@ -76,6 +74,7 @@ print(dfdataworking)
 print("------------------------------- Regex")
 dfdataregex = filtering.applyRegex(dfdataworking, dfilter)
 print(dfdataregex)
+
 
 ##########################v####################################################
 #Export to a file
