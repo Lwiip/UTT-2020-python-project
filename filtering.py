@@ -17,7 +17,10 @@ def applyRegex(df, dfilter):
         
         if pattern != nulpattern:
             #print("=>>>>>>>>>>>>>>>>>>>>>>> ",pattern)
-            df = df[df[header].str.contains(pattern)==True]
+            if df[header].dtypes != object:
+                df = df[df[header].apply(lambda x: x.strftime('%Y-%m-%d')).str.contains(pattern)==True]
+            else:
+                df = df[df[header].str.contains(pattern)==True]
 
     return df
 
