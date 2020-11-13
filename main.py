@@ -86,7 +86,8 @@ print(dfdataworking)
 
 #Apply sorting
 print("------------------------------- Sorting")
-dfdataworking = filtering.applySort(dfdataworking, asort, dfilter)
+if len(asort) != 0:
+    dfdataworking = filtering.applySort(dfdataworking, asort, dfilter)
 print(dfdataworking)
 
 #Apply regex
