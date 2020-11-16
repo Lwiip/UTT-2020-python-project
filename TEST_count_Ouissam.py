@@ -2,6 +2,7 @@ import argparse
 import csv
 import os
 import sys
+import operator
 
 import pandas as pd
 
@@ -33,7 +34,7 @@ if not os.path.isfile(filename):
     print (filename,": File not found")
     sys.exit()
 
-
+'''
 print ("STEP 1 : -------------------------------------------------------------------")
 with open(filename, 'r',encoding="utf-8") as f:
     reader=csv.reader(f,delimiter=sepfile)
@@ -48,6 +49,7 @@ with open(filename, 'r',encoding="utf-8") as f:
     dfdata = pd.DataFrame([reader], index = None) 
     for val in list(dfdata[4]): 
         print(val)
+
 
 print ("STEP 2.1 : -------------------------------------------------------------------")
 dico = {'ptvirgule':[], 'virgule':[], 'antislash':[], 'arobase':[], 'pipe':[], 'espace':[]}
@@ -74,7 +76,10 @@ with open(filename, 'r',encoding="utf-8") as f:
         print (values[0] == values[2])
         print (values[0] == values[3])
         print (values[0] == values[4])
+
+'''
     
+'''
 print ("STEP 3 : -------------------------------------------------------------------")
 ptvirgule=0
 virgule=0
@@ -115,7 +120,51 @@ elif espace == max(ptvirgule,virgule,antislash,arobase,pipe,espace):
 
 print ("ptvirgule=",ptvirgule,"virgule=",virgule,"antislash=",antislash,"arobase=",arobase,"pipe=",pipe,"espace=",espace)
 
+'''
 
+
+
+def computeoccurence(lignes, ddelimiters):
+    """
+    docstring
+    """
+    #init
+    dico = {}
+    for key, value in ddelimiters.items():
+        dico["{0}".format(key)] = []
+
+    #compute
+    for ligne in lignes:
+        for key, value in ddelimiters.items():
+            dico["{0}".format(key)].append(ligne.count(value))
+    return dico
+
+def getdelimitername(dico):
+    dshortlist = {}
+    for key, values in dico.items():
+        # A set is a collection that only keeps one copy of any object. So set([1,1,1,1,1,1]) is the same as set([1])
+        # len(set(values)) == 1 check if all values are the same
+        if len(set(values)) == 1:
+            dshortlist[key] = values[0]
+    #print(dshortlist)
+    #print(max(dshortlist.items(), key=operator.itemgetter(1))[0])
+    return max(dshortlist.items(), key=operator.itemgetter(1))[0]
+
+with open(filename, 'r',encoding="utf-8") as f:
+    lignes = f.readlines()[0:5]
+
+    ddelimiters = {'ptvirgule':';', 'virgule':',', 'antislash':'\\', 'arobase':'@', 'pipe':'|', 'espace':' '}
+    dico2 = computeoccurence(lignes, ddelimiters)
+    print(dico2)
+
+    delimitername = getdelimitername(dico2)
+    print(delimitername)
+    finaldelimiter = ddelimiters[delimitername]
+    print(finaldelimiter)
+
+
+
+'''
 print ("STEP 4 : -------------------------------------------------------------------")
 CSV_Filename="OUTFILE.csv"
 if os.path.isfile(CSV_Filename):
@@ -130,3 +179,4 @@ if os.path.isfile(filename):
     print (CSV_Filename,": Fichier créé")
 
 print ("################################# FIN #################################")
+'''
