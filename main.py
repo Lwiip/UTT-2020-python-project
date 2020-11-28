@@ -13,7 +13,7 @@ from pathlib import Path
 ###################################################
 parser = argparse.ArgumentParser()
 parser.add_argument("-f", "--file", help="Indicate the csv or txt file to be processed")   
-parser.add_argument("-d", "--delimiter", help='Specify the file delimiter. By default the delimiter is ";" [Example: -d ","]')   
+parser.add_argument("-d", "--delimiter", help='Specify the file delimiter [Example: -d ";"] otherwise by default the delimiter is detected automatically.')   
 parser.add_argument("-e", "--outfile", help='Specify the name of the csv file to export the result' )
 args = parser.parse_args()
 if args.file:
