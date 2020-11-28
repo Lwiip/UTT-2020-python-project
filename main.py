@@ -6,6 +6,7 @@ import argparse
 import sys
 import os
 import detectdelimiter
+from pathlib import Path
 
 ###################################################
 #Import file, set delimiter, find and convert dates
@@ -13,6 +14,7 @@ import detectdelimiter
 parser = argparse.ArgumentParser()
 parser.add_argument("-f", "--file", help="Indicate the csv or txt file to be processed")   
 parser.add_argument("-d", "--delimiter", help='Specify the file delimiter. By default the delimiter is ";" [Example: -d ","]')   
+parser.add_argument("-e", "--outfile", help='Specify the name of the csv file to export the result' )
 args = parser.parse_args()
 if args.file:
     #Retrieving the file specified in the command line
@@ -88,5 +90,17 @@ print(dfdataregex)
 ##########################v####################################################
 #Export to a file
 ##############################################################################
+if args.outfile:
+    
+    #Define the out file
+    outfilename=args.outfile
+    
+    #Check if the old file exist and remove
+    if os.path.isfile(outfilename):
+        print ("INFORMATION : Remove the old file",outfilename)
+        os.remove(outfilename) 
 
+    #Create the out file 
+    dfdataregex.to_csv (outfilename, header=True,index=True, index_label='NumLine', encoding='utf-8', sep=';')
+    print ("INFORMATION : The file",outfilename,"is created")
 
