@@ -5,34 +5,45 @@ import inputs
 import argparse
 import sys
 import os
+import detectdelimiter
 
-##############################################################################
+###################################################
 #Import file, set delimiter, find and convert dates
-##############################################################################
-#Import data with specific delimiter as a panda dataframe
+###################################################
 parser = argparse.ArgumentParser()
 parser.add_argument("-f", "--file", help="Indicate the csv or txt file to be processed")   
 parser.add_argument("-d", "--delimiter", help='Specify the file delimiter. By default the delimiter is ";" [Example: -d ","]')   
 args = parser.parse_args()
 if args.file:
-    filename=args.file #Retrieving the file specified in the command line
+    #Retrieving the file specified in the command line
+    filename=args.file 
+
+    #Check if the file specified in the command line exists 
+    if not os.path.isfile(filename): 
+        print ("ERROR :", filename,"file not found")
+        sys.exit()
 else:
-    print ("error: indicate the csv or txt filename to be processed")
+    print ("ERROR: indicate the csv or txt filename to be processed")
     sys.exit()
 
+
+##############################################################################
+#Get the delimiter
+##############################################################################
 if args.delimiter:
-    sepfile=args.delimiter #Retrieve the delimiter specified in the command line 
+    #Retrieve the delimiter specified in the command line 
+    finaldelimiter = args.delimiter 
 else:
-    #Default Delimiter ";"
-    sepfile="\;"
+    #List of predefined delimiters 
+    ddelimiters = {'doublecode':'"','ptvirgule':';', 'virgule':',', 'antislash':'\\', 'arobase':'@', 'pipe':'|'}
+    #Automatic detection delimiter 
+    finaldelimiter = detectdelimiter.getautodelimiter(filename,ddelimiters)
 
-#Checks if the file specified in the command line exists 
-if not os.path.isfile(filename):
-    print (filename,": File not found")
-    sys.exit()
 
-dfdata = pd.read_csv(filename,sep=sepfile,engine='python')
-
+##############################################################################
+#dataframe processing
+##############################################################################
+dfdata = pd.read_csv(filename,sep=finaldelimiter,engine='python')
 
 #Copy the dataframe
 dfdataworking = dfdata.copy()
@@ -50,9 +61,7 @@ print(dfdataworking[:5])
 #Get data from user in command line style
 dfilter, asort = inputs.inputscommandline(headers)
 
-
-    
-
+   
 ##############################################################################
 #Apply inputs from user
 ##############################################################################
