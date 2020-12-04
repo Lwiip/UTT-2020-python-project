@@ -8,7 +8,40 @@ from tkinter import *
 from tkinter import ttk
 from tkinter.filedialog import askopenfilename
 import pandas as pd
-#from IPython.display import display
+
+def setinputs(pd):
+    headers = []
+    headers = list(pd.columns)
+
+    totalcolumn = len(headers)
+    relativesize = 1 / totalcolumn
+    size = round((1920/totalcolumn)/9)
+    pos = 0
+    count = 0
+    
+
+    for column in headers:
+        inputsFrame.columnconfigure(count, weight=1,pad=0.1)
+
+        label1 = Label(inputsFrame,text=column, width=size)
+        label1['font']=('Arial', 8)
+        label1.grid(row=1, column=count)
+
+        check = Checkbutton(inputsFrame, text='select/deselect', width=size)
+        check.select()
+        check.grid(row=2, column=count)
+
+        value = StringVar() 
+        value.set(".*")
+        entree = Entry(inputsFrame, textvariable=value,width=size)
+        entree.grid(row=3, column=count)
+
+        bouton = Button(inputsFrame,text='sort',width=size)
+        bouton.grid(row=4, column=count)
+
+        pos = pos + relativesize 
+        count = count + 1 
+
 
 
 #function to show the table
@@ -17,21 +50,11 @@ def showTable(pd):
     tree["column"] = list(pd.columns)
     tree["show"] = "headings"
 
-    totalcolumn = len(tree["column"])
-    relativesize = 1 / totalcolumn
-    test = 0
-
+    #show table headers
     for column in tree["column"]:
         tree.heading(column, text = column)
 
-        #test insertion valeur
-        value = StringVar() 
-        value.set(column)
-        entree = Entry(table, textvariable=value, width=24)
-        #entree.pack(side=LEFT)
-        entree.place(relx=test, rely=0.02)
-        test = test + relativesize 
-
+    #show table values
     dfRows = pd.to_numpy().tolist()
     for row in dfRows:
         tree.insert("", "end", values = row)
@@ -53,6 +76,7 @@ def OpenFile():
             #??? ça sert à quoi ?
             tree.delete(*tree.get_children())
 
+            setinputs(data)
             showTable(data)
 
     #Exception handling
@@ -60,28 +84,33 @@ def OpenFile():
         messagebox.showerror("No file exists")
     except:
         messagebox.showerror("Error")
-
-    
+  
 
 #main window     
 fenetre = Tk()
-fenetre.geometry('1344x756')
+fenetre.geometry('1920x1080')
 fenetre.resizable(1, 1)
 Title = fenetre.title( "Projet Python")
 
 #Command Panel
 commandFrame = ttk.LabelFrame(fenetre, text="Commande")
-commandFrame.place(relx=0, rely=0.02, height=100, width=1920)
+commandFrame.place(relx=0, rely=0.02, height=50, width=1920)
 buttonFile = Button(commandFrame, text="File", command = OpenFile)
 buttonFile.place(relx=0, rely=0.1)
 
+#Inputs Panel
+inputsFrame = ttk.LabelFrame(fenetre, text="Inputs")
+inputsFrame.place(relx=0, rely=0.09, height=120, width=1920)
+#scrollbar = Scrollbar(inputsFrame, orient='horizontal')
+#scrollbar.pack(side = 'top', fill = 'x')
+
+
 #Table Panel
 table = ttk.LabelFrame(fenetre, text="Table")
-table.place(relx=0, rely=0.15, height=860, width=1920)
+table.place(relx=0, rely=0.22, height=790, width=1920)
 #Treeview
 tree = ttk.Treeview(table)
-tree.place(rely=0.05, relwidth = 1, relheight = 1)
-
+tree.place(rely=0.02, relwidth = 1, relheight = 1)
 # Constructing scrollbar 
 hsb = ttk.Scrollbar(table,  orient ="horizontal",  command = tree.xview) 
 hsb.pack(side ='top', fill ='x') 
