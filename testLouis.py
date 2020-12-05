@@ -9,7 +9,7 @@ from tkinter import ttk
 from tkinter.filedialog import askopenfilename
 import pandas as pd
 
-def setinputs(pd):
+def inputsGraphic(pd):
     headers = []
     headers = list(pd.columns)
 
@@ -19,7 +19,6 @@ def setinputs(pd):
     pos = 0
     count = 0
     
-
     for column in headers:
         inputsFrame.columnconfigure(count, weight=1,pad=0.1)
 
@@ -73,10 +72,16 @@ def OpenFile():
         with open(log,"r") as UseFile:
             data = pd.read_csv(UseFile, header=0, sep=';')
             
-            #??? ça sert à quoi ?
-            tree.delete(*tree.get_children())
 
-            setinputs(data)
+            #Clean widget, needed if you open another file
+            for widget in tree.winfo_children():
+                widget.destroy()
+            for widget in inputsFrame.winfo_children():
+                widget.destroy()
+            
+            #setinputs function
+            inputsGraphic(data)
+            #showTable function
             showTable(data)
 
     #Exception handling
