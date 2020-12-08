@@ -14,7 +14,7 @@ import detectdelimiter
 #Graphic functions
 ##############################################################################
 
-def getinputsGraphic(dfilterb, dsort, headers):
+def getinputsGraphic(dfdata, dfilterb, dsort, headers):
 
     dfilter = {}
     asort = []
@@ -28,11 +28,26 @@ def getinputsGraphic(dfilterb, dsort, headers):
             asort.append(header)
             dfilter["csort_{0}".format(header)] = dfilterb["csort_{0}".format(header)].get()
 
-    print(asort)
-    print(dfilter)
+
+    ##############################################################################
+    #Apply inputs from user
+    ##############################################################################
+    #Apply selection
+    dfdata = filtering.applySelection(dfdata, dfilter)
+    #Apply sorting
+    if len(asort) != 0:
+        dfdata = filtering.applySort(dfdata, asort, dfilter)
+    #Apply regex
+    dfdata = filtering.applyRegex(dfdata, dfilter)
+
+    ##############################################################################
+    #Refresh affichage
+    ##############################################################################
+    tree.delete(*tree.get_children()) 
+    showTable(dfdata)
 
 
-def setinputsGraphic(headers):
+def setinputsGraphic(dfdata, headers):
 
     #init neede for graphic interface 
     totalcolumn = len(headers)
@@ -80,7 +95,7 @@ def setinputsGraphic(headers):
 
 
     #set button compute
-    buttonCompute = Button(commandFrame, text="Compute", command = lambda: getinputsGraphic(dfilterb, dsort, headers))
+    buttonCompute = Button(commandFrame, text="Compute", command = lambda: getinputsGraphic(dfdata, dfilterb, dsort, headers))
     buttonCompute.place(relx=0.2, rely=0.1)
 
     return dfilterb, asort
@@ -100,11 +115,11 @@ def showTable(pd):
     dfRows = pd.to_numpy().tolist()
     for row in dfRows:
         tree.insert("", "end", values = row)
-
-
+    
 
 #function to open log file
 def OpenFile():
+    count = 0 
     log= askopenfilename(initialdir="./",
                            filetypes =(("Csv Files",".csv"),("All Files",".*")),
                            title = "Choose a file."
@@ -112,22 +127,38 @@ def OpenFile():
     print (log)
     #Using try in case user types in unknown file or closes without choosing a file.
     try:
-        with open(log,"r") as UseFile:
-            data = pd.read_csv(UseFile, header=0, sep=';')
-            headers = []
-            headers = list(data.columns)
+        with open(log,"r") as file:
             
-
+            
             #Clean widget, needed if you open another file
-            for widget in tree.winfo_children():
-                widget.destroy()
+            tree.delete(*tree.get_children()) 
             for widget in inputsFrame.winfo_children():
-                widget.destroy()
+                widget.destroy()   
+
+        
+            ##############################################################################
+            #Delimiter
+            ############################################################################## 
+            filename = file.name
+            #List of predefined delimiters 
+            ddelimiters = {'doublecode':'"','ptvirgule':';', 'virgule':',', 'antislash':'\\', 'arobase':'@', 'pipe':'|'}
+            #Automatic detection delimiter 
+            finaldelimiter = detectdelimiter.getautodelimiter(filename,ddelimiters)
+
+            ##############################################################################
+            #dataframe processing
+            ##############################################################################
+            dfdata = pd.read_csv(filename,sep=finaldelimiter,engine='python')
+            #Get list of headers from the file imported
+            headers = list(dfdata.columns)
+            #auto detect dates and convert columns to date format if date
+            dfdata = date.columnIsDate(dfdata,headers)
+            
             
             #setinputs function
-            dfilter, asort = setinputsGraphic(headers)
+            setinputsGraphic(dfdata, headers)
             #showTable function
-            showTable(data)
+            showTable(dfdata)
         
     #Exception handling
     except FileNotFoundError:
