@@ -12,7 +12,7 @@ from pathlib import Path
 #Import file, set delimiter, find and convert dates
 ###################################################
 parser = argparse.ArgumentParser()
-parser.add_argument("-g", "--graphic", help="Indicate to open the program in graphical mode")  
+parser.add_argument("-g", "--graphic", help="Indicate to open the program in graphical mode", action="store_true")  
 parser.add_argument("-f", "--file", help="Indicate the csv or txt file to be processed")   
 parser.add_argument("-d", "--delimiter", help='Specify the file delimiter [Example: -d ";"] otherwise by default the delimiter is detected automatically.')   
 parser.add_argument("-e", "--outfile", help='Specify the name of the csv file to export the result' )
