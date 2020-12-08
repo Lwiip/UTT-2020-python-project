@@ -1,15 +1,18 @@
-﻿# This is a sample Python script.
-
-# Press Maj+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-
-
-from tkinter import *
+﻿from tkinter import *
 import tkinter as tk
 from tkinter import ttk
 from tkinter.filedialog import askopenfilename
 import pandas as pd
 
+import filtering
+import date
+import inputs
+import detectdelimiter
+
+
+##############################################################################
+#Graphic functions
+##############################################################################
 
 def getinputsGraphic(dfilterb, dsort, headers):
 
@@ -135,7 +138,11 @@ def OpenFile():
         
 
     
-  
+
+
+##############################################################################
+#Interface
+##############################################################################
 
 #main window     
 fenetre = Tk()
