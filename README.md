@@ -7,23 +7,6 @@ données : vous proposerez un menu déroulant avec les différents éléments pr
 programme permettra les recherches multicritères, ainsi que la sauvegarde des résultats,
 et l’export en CSV.
 
-
-## TODO
-- Import file (different files needs to be handle txt, csv.. with different delimiter, autodetection of the delimiter, options for the user to set his own delimiter)
-- Filtering based on the regex inputs from the user (multiple collumns regex matching, select or deselect collumns, sort including date..)
-- Amélioration performance regex (application automatique)
-- export a file after filtering with regex pattern
-- GUI
-
-
-## Github command
-- git pull
-- git status
-- git add ce_que_l'on_veut_ajouter
-- git commit -m "mon commit blablabla"
-- git push
-
-
 ## Cheat sheet Github
 https://education.github.com/git-cheat-sheet-education.pdf
 
