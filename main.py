@@ -33,7 +33,7 @@ if args.file and not args.graphic:
         print ("ERROR :", filename,"file not found")
         sys.exit()
 else:
-    print ("ERROR: indicate the csv or txt filename to be processed")
+    print ("ERROR: indicate the csv or txt filename to be processed, or choose graphic option")
     sys.exit()
 
 
@@ -91,8 +91,8 @@ print(dfdataworking)
 
 #Apply regex
 print("------------------------------- Regex")
-dfdataregex = filtering.applyRegex(dfdataworking, dfilter)
-print(dfdataregex)
+dfdataworking = filtering.applyRegex(dfdataworking, dfilter)
+print(dfdataworking)
 
 
 ##########################v####################################################
@@ -109,6 +109,6 @@ if args.outfile:
         os.remove(outfilename) 
 
     #Create the out file 
-    dfdataregex.to_csv (outfilename, header=True,index=True, index_label='NumLine', encoding='utf-8', sep=';')
+    dfdataworking.to_csv (outfilename, header=True,index=True, index_label='NumLine', encoding='utf-8', sep=';')
     print ("INFORMATION : The file",outfilename,"is created")
 

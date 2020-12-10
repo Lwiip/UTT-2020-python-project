@@ -87,7 +87,7 @@ def setinputsGraphic(dfdata, headers):
         check2.grid(row=4, column=count)
 
         dfilterb["csort_{0}".format(header)] = tk.BooleanVar() 
-        check3 = Checkbutton(inputsFrame, text='asc/desc', width=size, var=dfilterb["csort_{0}".format(header)] )
+        check3 = Checkbutton(inputsFrame, text='asc (desc by dft)', width=size, var=dfilterb["csort_{0}".format(header)] )
         check3.grid(row=5, column=count)
         
 
