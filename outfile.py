@@ -15,5 +15,5 @@ def outfile_csv(outfilename,dfdataworking):
         os.remove(outfilename) 
 
     #Create the out file 
-    dfdataworking.to_csv (outfilename, header=True,index=True, index_label='NumLine', encoding='utf-8', sep=';')
+    dfdataworking.to_csv(outfilename, header=True,index=True, index_label='NumLine', encoding='utf-8', sep=';')
     print ("INFORMATION : The file",outfilename,"is created")

@@ -2,6 +2,7 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter.filedialog import askopenfilename
+from tkinter.filedialog import asksaveasfile 
 import pandas as pd
 
 import filtering
@@ -39,6 +40,15 @@ def getinputsGraphic(dfdata, dfilterb, dsort, headers):
         dfdata = filtering.applySort(dfdata, asort, dfilter)
     #Apply regex
     dfdata = filtering.applyRegex(dfdata, dfilter)
+
+
+    ##############################################################################
+    #Export to a file
+    ##############################################################################
+    #set button save
+    buttonSave = Button(commandFrame, text="Save", command = lambda: saveFile(dfdata))
+    buttonSave.place(relx=0.9, rely=0.1)
+
 
     ##############################################################################
     #Refresh affichage
@@ -96,7 +106,7 @@ def setinputsGraphic(dfdata, headers):
 
     #set button compute
     buttonCompute = Button(commandFrame, text="Compute", command = lambda: getinputsGraphic(dfdata, dfilterb, dsort, headers))
-    buttonCompute.place(relx=0.2, rely=0.1)
+    buttonCompute.place(relx=0.48, rely=0.1)
 
     return dfilterb, asort
     
@@ -119,10 +129,9 @@ def showTable(pd):
 
 #function to open log file
 def OpenFile():
-    count = 0 
     log= askopenfilename(initialdir="./",
                            filetypes =(("Csv Files",".csv"),("All Files",".*")),
-                           title = "Choose a file."
+                           title = "Choose a file"
                            )
     print (log)
     #Using try in case user types in unknown file or closes without choosing a file.
@@ -162,10 +171,19 @@ def OpenFile():
         
     #Exception handling
     except FileNotFoundError:
-        messagebox.showerror("No file exists")
+        tk.messagebox.showerror("No file exists")
     except:
-        messagebox.showerror("Error")
+        tk.messagebox.showerror("Error")
 
+#function to save the file
+def saveFile(dfdata):
+    file = asksaveasfile(initialdir="./",
+                           filetypes =(("Csv Files",".csv"),("All Files",".*")),
+                           title = "Save a file"
+                           )
+    
+    dfdata.to_csv(file.name, header=True,index=True, index_label='NumLine', encoding='utf-8', sep=';')
+    #file.write(dfdata)
         
 
     
@@ -185,7 +203,8 @@ Title = fenetre.title( "Projet Python")
 commandFrame = ttk.LabelFrame(fenetre, text="Commande")
 commandFrame.place(relx=0, rely=0.02, height=50, width=1920)
 buttonFile = Button(commandFrame, text="File", command = OpenFile)
-buttonFile.place(relx=0, rely=0.1)
+buttonFile.place(relx=0.1, rely=0.1)
+
 
 
 #Inputs Panel
