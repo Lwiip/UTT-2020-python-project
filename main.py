@@ -19,7 +19,7 @@ parser.add_argument("-e", "--outfile", help='Specify the name of the csv file to
 args = parser.parse_args()
 
 
-if args.graphic is not None:
+if args.graphic is not False:
     import interface
     sys.exit()
     #exec(open('interface.py').read())
