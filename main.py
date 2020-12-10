@@ -3,6 +3,7 @@ import filtering
 import date
 import inputs
 import argparse
+import outfile
 import sys
 import os
 import detectdelimiter
@@ -99,16 +100,11 @@ print(dfdataworking)
 #Export to a file
 ##############################################################################
 if args.outfile:
-    
+
     #Define the out file
     outfilename=args.outfile
-    
-    #Check if the old file exist and remove
-    if os.path.isfile(outfilename):
-        print ("INFORMATION : Remove the old file",outfilename)
-        os.remove(outfilename) 
 
-    #Create the out file 
-    dfdataworking.to_csv (outfilename, header=True,index=True, index_label='NumLine', encoding='utf-8', sep=';')
-    print ("INFORMATION : The file",outfilename,"is created")
+    #Generating the output file in CSV
+    print("------------------------------- outfile")
+    outfile.outfile_csv(outfilename,dfdataworking)
 
