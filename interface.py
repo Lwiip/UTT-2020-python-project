@@ -11,10 +11,21 @@ import inputs
 import detectdelimiter
 
 
-def getinputsGraphic(dfdata, dfilterb, dsort, headers):
+def compute(dfdata, dfilterb, dsort, headers):
+    """
+    Function get user inputs from the GUI, and apply all filters on the dataframe.
 
+    :param dfdata: dataframe, dataframe created with the opened file
+    :param dfilterb: dictionnary, dictionnary of inputs needed to build the dictionnary needed to apply filters
+    :param dsort: dictionnary, dictionnary needed to build asort (list of columns to sort)
+    :param headers: array, headers of the dataframe
+    """
+
+    #init
     dfilter = {}
     asort = []
+
+    #get inputs from user and construct dictionnary and array needed for the compute part
     for header in headers:
         #get checkbox and save it in dfilter
         dfilter["cselect_{0}".format(header)] = dfilterb["cselect_{0}".format(header)].get()
@@ -27,7 +38,7 @@ def getinputsGraphic(dfdata, dfilterb, dsort, headers):
 
 
     ##############################################################################
-    #Apply inputs from user
+    #Apply filters
     ##############################################################################
     #Apply selection
     dfdata = filtering.applySelection(dfdata, dfilter)
@@ -37,25 +48,29 @@ def getinputsGraphic(dfdata, dfilterb, dsort, headers):
     #Apply regex
     dfdata = filtering.applyRegex(dfdata, dfilter)
 
+    ##############################################################################
+    #Refresh GUI to show changes
+    ##############################################################################
+    tree.delete(*tree.get_children()) 
+    showTable(dfdata)
 
     ##############################################################################
-    #Export to a file
+    #Button Export to save the dataframe to a file
     ##############################################################################
     #set button save
     buttonSave = Button(commandFrame, text="Save", command = lambda: saveFile(dfdata))
     buttonSave.place(relx=0.9, rely=0.1)
 
 
-    ##############################################################################
-    #Refresh affichage
-    ##############################################################################
-    tree.delete(*tree.get_children()) 
-    showTable(dfdata)
-
-
 def setinputsGraphic(dfdata, headers):
+    """
+    Function to setup user inputs in the GUI, and create the compute button to allow user to apply filters on the dataframe.
 
-    #init neede for graphic interface 
+    :param dfdata: dataframe, dataframe created with the opened file
+    :param headers: array, list of headers of the dataframe
+    """
+
+    #init needed for graphic interface 
     totalcolumn = len(headers)
     size = round((1920/totalcolumn)/9)
     count = 0
@@ -65,6 +80,7 @@ def setinputsGraphic(dfdata, headers):
     dsort = {}
     asort = []
     
+    #setup user inputs in the GUI
     for header in headers:
         #grid configuration (take all the space and add a little of padding)
         inputsFrame.columnconfigure(count, weight=1,pad=0.1)
@@ -86,31 +102,28 @@ def setinputsGraphic(dfdata, headers):
         entree.grid(row=3, column=count)
 
         #sort inputs
-        #bouton = Button(inputsFrame,text='sort',width=size, command= lambda: sortbutton(header))
-        #bouton.
         dsort["csort_{0}".format(header)] = tk.BooleanVar() 
         check2 = Checkbutton(inputsFrame, text='sort', width=size, var=dsort["csort_{0}".format(header)] )
         check2.grid(row=4, column=count)
-
         dfilterb["csort_{0}".format(header)] = tk.BooleanVar() 
         check3 = Checkbutton(inputsFrame, text='asc (desc by dft)', width=size, var=dfilterb["csort_{0}".format(header)] )
         check3.grid(row=5, column=count)
         
-
         count = count + 1 
 
-
-    #set button compute
-    buttonCompute = Button(commandFrame, text="Compute", command = lambda: getinputsGraphic(dfdata, dfilterb, dsort, headers))
+    #set button compute and launch compute function when the user clic on it.
+    buttonCompute = Button(commandFrame, text="Compute", command = lambda: compute(dfdata, dfilterb, dsort, headers))
     buttonCompute.place(relx=0.48, rely=0.1)
 
-    return dfilterb, asort
-    
 
 #function to show the table
-def showTable(pd):
+def showTable(df):
+    """
+    Function to show on the GUI the dataframe
 
-    tree["column"] = list(pd.columns)
+    :param df:dataframe, dataframe to show on the GUI
+    """
+    tree["column"] = list(df.columns)
     tree["show"] = "headings"
 
     #show table headers
@@ -118,24 +131,28 @@ def showTable(pd):
         tree.heading(column, text = column)
 
     #show table values
-    dfRows = pd.to_numpy().tolist()
+    dfRows = df.to_numpy().tolist()
     for row in dfRows:
         tree.insert("", "end", values = row)
     
 
 #function to open log file
-def OpenFile():
+def openFile():
+    """
+    open a file, autodetect the delimiter and open it as a dataframe. Apply on that dataframe some processing
+    """
+    #open the GUI explorer file
     log= askopenfilename(initialdir="./",
                            filetypes =(("Csv Files",".csv"),("All Files",".*")),
                            title = "Choose a file"
                            )
     print (log)
-    #Using try in case user types in unknown file or closes without choosing a file.
+    
+    #Using try in case user types in unknown file or close without choosing a file.
     try:
         with open(log,"r") as file:
             
-            
-            #Clean widget, needed if you open another file
+            #Clean the tree widget needed to show the dataframe in the GUI, needed if you open another file
             tree.delete(*tree.get_children()) 
             for widget in inputsFrame.winfo_children():
                 widget.destroy()   
@@ -171,23 +188,28 @@ def OpenFile():
     except:
         tk.messagebox.showerror("Error")
 
-#function to save the file
+
 def saveFile(dfdata):
+    """
+    Function to save the filtered dataframe to a csv file.
+
+    :param dfdata: dataframe, filtered dataframe
+    """
+    #open the GUI explorer to save the file
     file = asksaveasfile(initialdir="./",
                            filetypes =(("Csv Files",".csv"),("All Files",".*")),
                            title = "Save a file"
                            )
-    
+    #save the dataframe to a csv 
     dfdata.to_csv(file.name, header=True,index=False, encoding='utf-8', sep=';')
-    #file.write(dfdata)
         
 
     
 
 
-##############################################################################
-#Interface
-##############################################################################
+############################################################################################################################################################
+#Interface main
+############################################################################################################################################################
 
 #main window     
 fenetre = Tk()
@@ -198,17 +220,13 @@ Title = fenetre.title( "Projet Python")
 #Command Panel
 commandFrame = ttk.LabelFrame(fenetre, text="Commande")
 commandFrame.place(relx=0, rely=0.02, height=50, width=1920)
-buttonFile = Button(commandFrame, text="File", command = OpenFile)
+#button file, openFile function
+buttonFile = Button(commandFrame, text="File", command = openFile)
 buttonFile.place(relx=0.1, rely=0.1)
-
-
 
 #Inputs Panel
 inputsFrame = ttk.LabelFrame(fenetre, text="Inputs")
 inputsFrame.place(relx=0, rely=0.085, height=140, width=1920)
-#scrollbar = Scrollbar(inputsFrame, orient='horizontal')
-#scrollbar.pack(side = 'top', fill = 'x')
-
 
 #Table Panel
 table = ttk.LabelFrame(fenetre, text="Table")
@@ -222,6 +240,5 @@ hsb.pack(side ='top', fill ='x')
 vsb = ttk.Scrollbar(table, orient="vertical", command=tree.yview)
 vsb.pack(side='right', fill='y')
 tree.configure(xscrollcommand = hsb.set, yscrollcommand=vsb.set) 
-
 
 fenetre.mainloop()

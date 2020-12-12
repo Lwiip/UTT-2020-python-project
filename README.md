@@ -8,9 +8,7 @@ programme permettra les recherches multicritères, ainsi que la sauvegarde des r
 et l’export en CSV.
 
 ## TODO
-- Commentaires code (fonction...)
-- Bug export exclude lines number
-- main changement au niveau dfdataworking
+- Update README et ajout de la liste des imports nécessaires
 - Rapport 
 
 
