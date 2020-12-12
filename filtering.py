@@ -21,7 +21,7 @@ def applyRegex(df, dfilter):
         if pattern != nulpattern:
             if df[header].dtypes == 'datetime64[ns]':
                 #if the type of the column is date, need to first translate it to string to apply regex.
-                df = df[df[header].apply(lambda x: x.strftime('%Y-%m-%d')).str.contains(pattern)==True]
+                df = df[df[header].apply(lambda x: x.strftime('%d-%m-%Y')).str.contains(pattern)==True]
             elif df[header].dtypes != object:
                 #if the type of the column is not object (for example int) need to first translate it to string to apply regex.
                 df = df[df[header].apply(str).str.contains(pattern)==True]

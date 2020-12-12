@@ -10,6 +10,7 @@ et l’export en CSV.
 ## TODO
 - Update README et ajout de la liste des imports nécessaires
 - Rapport 
+- problèmes: performance GUI loops, date autodetect, interface not scrollable inputs
 
 
 ## Cheat sheet Github
