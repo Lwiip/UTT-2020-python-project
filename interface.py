@@ -10,9 +10,6 @@ import date
 import inputs
 import detectdelimiter
 
-##############################################################################
-#Graphic functions
-##############################################################################
 
 def getinputsGraphic(dfdata, dfilterb, dsort, headers):
 
@@ -181,7 +178,7 @@ def saveFile(dfdata):
                            title = "Save a file"
                            )
     
-    dfdata.to_csv(file.name, header=True,index=True, index_label='NumLine', encoding='utf-8', sep=';')
+    dfdata.to_csv(file.name, header=True,index=False, encoding='utf-8', sep=';')
     #file.write(dfdata)
         
 

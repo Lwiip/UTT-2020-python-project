@@ -7,6 +7,13 @@ données : vous proposerez un menu déroulant avec les différents éléments pr
 programme permettra les recherches multicritères, ainsi que la sauvegarde des résultats,
 et l’export en CSV.
 
+## TODO
+- Commentaires code (fonction...)
+- Bug export exclude lines number
+- main changement au niveau dfdataworking
+- Rapport 
+
+
 ## Cheat sheet Github
 https://education.github.com/git-cheat-sheet-education.pdf
 

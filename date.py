@@ -10,13 +10,13 @@ def columnIsDate(df,headers):
     :param headers:array, headers from the file imported
     '''
     count = 0
-    #Lecture de la première ligne de données
+    #LRead of the first line of data
     for i in df.iloc[0]:
         i = str(i)
         #check if the format is a date
         if isDate(i):
             columnheader = headers[count]
-            #type of the column to a date format
+            #transforme type of the column to a date format
             df[columnheader] = pd.to_datetime(df[columnheader], errors='coerce')
             count=count+1
         else:

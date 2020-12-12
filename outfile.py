@@ -1,12 +1,12 @@
     
 import os
 
-def outfile_csv(outfilename,dfdataworking):
+def outfile_csv(outfilename,dfdata):
     """
     Generation of the output file in CSV format
 
-    :param outfilename : output file specified by the user
-    :param dfdataworking : dataframe with regex applied
+    :param outfilename:string, output file specified by the user
+    :param dfdata:dataframe, dataframe with all filters applied
     """
    
     #Check if the old file exist and remove
@@ -15,5 +15,5 @@ def outfile_csv(outfilename,dfdataworking):
         os.remove(outfilename) 
 
     #Create the out file 
-    dfdataworking.to_csv(outfilename, header=True,index=True, index_label='NumLine', encoding='utf-8', sep=';')
+    dfdata.to_csv(outfilename, header=True,index=False, encoding='utf-8', sep=';')
     print ("INFORMATION : The file",outfilename,"is created")

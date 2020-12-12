@@ -16,14 +16,14 @@ parser = argparse.ArgumentParser()
 parser.add_argument("-g", "--graphic", help="Indicate to open the program in graphical mode", action="store_true")  
 parser.add_argument("-f", "--file", help="Indicate the csv or txt file to be processed")   
 parser.add_argument("-d", "--delimiter", help='Specify the file delimiter [Example: -d ";"] otherwise by default the delimiter is detected automatically.')   
-parser.add_argument("-e", "--outfile", help='Specify the name of the csv file to export the result' )
+parser.add_argument("-o", "--outfile", help='Specify the name of the csv file to export the result' )
 args = parser.parse_args()
 
 
+#if -g option, open interface script
 if args.graphic is not False:
     import interface
     sys.exit()
-    #exec(open('interface.py').read())
 
 if args.file and not args.graphic:
     #Retrieving the file specified in the command line
@@ -41,13 +41,13 @@ else:
 ##############################################################################
 #Get the delimiter
 ##############################################################################
+#Retrieve the delimiter specified in the command line 
 if args.delimiter:
-    #Retrieve the delimiter specified in the command line 
     finaldelimiter = args.delimiter 
 else:
     #List of predefined delimiters 
     ddelimiters = {'doublecode':'"','ptvirgule':';', 'virgule':',', 'antislash':'\\', 'arobase':'@', 'pipe':'|'}
-    #Automatic detection delimiter 
+    #Automatic detection of the delimiter 
     finaldelimiter = detectdelimiter.getautodelimiter(filename,ddelimiters)
 
 
@@ -56,20 +56,18 @@ else:
 ##############################################################################
 dfdata = pd.read_csv(filename,sep=finaldelimiter,engine='python')
 
-#Copy the dataframe
-dfdataworking = dfdata.copy()
 #Get list of headers from the file imported
-headers = list(dfdataworking.columns)
+headers = list(dfdata.columns)
 #auto detect dates and convert columns to date format if date
-dfdataworking = date.columnIsDate(dfdataworking,headers)
+dfdata = date.columnIsDate(dfdata,headers)
 
 
 ##############################################################################
 #Get info from user
 ##############################################################################
-print(dfdataworking[:5])
+print(dfdata[:5])
 
-#Get data from user in command line style
+#Get data from user in command line style, return dictionnary and array
 dfilter, asort = inputs.inputscommandline(headers)
 
    
@@ -77,34 +75,35 @@ dfilter, asort = inputs.inputscommandline(headers)
 #Apply inputs from user
 ##############################################################################
 print("------------------------------- Init")
-print(dfdataworking)
+print(dfdata[:5])
 
 #Apply selection
 print("------------------------------- Selection")
-dfdataworking = filtering.applySelection(dfdataworking, dfilter)
-print(dfdataworking)
+dfdata = filtering.applySelection(dfdata, dfilter)
+print(dfdata[:5])
 
 #Apply sorting
 print("------------------------------- Sorting")
 if len(asort) != 0:
-    dfdataworking = filtering.applySort(dfdataworking, asort, dfilter)
-print(dfdataworking)
+    dfdata = filtering.applySort(dfdata, asort, dfilter)
+print(dfdata[:5])
 
 #Apply regex
 print("------------------------------- Regex")
-dfdataworking = filtering.applyRegex(dfdataworking, dfilter)
-print(dfdataworking)
+dfdata = filtering.applyRegex(dfdata, dfilter)
+print(dfdata[:5])
 
 
-##########################v####################################################
+##############################################################################
 #Export to a file
 ##############################################################################
+#if -o option (outfile)
 if args.outfile:
 
-    #Define the out file
+    #Define the out filename
     outfilename=args.outfile
 
     #Generating the output file in CSV
     print("------------------------------- outfile")
-    outfile.outfile_csv(outfilename,dfdataworking)
+    outfile.outfile_csv(outfilename,dfdata)
 
