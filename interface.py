@@ -1,4 +1,4 @@
-﻿from tkinter import *
+﻿#from tkinter import *
 import tkinter as tk
 from tkinter import ttk
 from tkinter.filedialog import askopenfilename
@@ -58,7 +58,7 @@ def compute(dfdata, dfilterb, dsort, headers):
     #Button Export to save the dataframe to a file
     ##############################################################################
     #set button save
-    buttonSave = Button(commandFrame, text="Save", command = lambda: saveFile(dfdata))
+    buttonSave = tk.Button(commandFrame, text="Save", command = lambda: saveFile(dfdata))
     buttonSave.place(relx=0.9, rely=0.1)
 
 
@@ -86,33 +86,33 @@ def setinputsGraphic(dfdata, headers):
         inputsFrame.columnconfigure(count, weight=1,pad=0.1)
 
         #label to print column name
-        label = Label(inputsFrame,text=header, width=size)
+        label = tk.Label(inputsFrame,text=header, width=size)
         label['font']=('Arial', 8)
         label.grid(row=1, column=count)
 
         #checkbutton selection
         dfilterb["cselect_{0}".format(header)] = tk.BooleanVar() 
-        check1 = Checkbutton(inputsFrame, text='delete column', width=size, var=dfilterb["cselect_{0}".format(header)])
+        check1 = tk.Checkbutton(inputsFrame, text='delete column', width=size, var=dfilterb["cselect_{0}".format(header)])
         check1.grid(row=2, column=count)
 
         #regex inputs
-        dfilterb["cregex_{0}".format(header)] = StringVar() 
+        dfilterb["cregex_{0}".format(header)] = tk.StringVar() 
         dfilterb["cregex_{0}".format(header)].set(".*")
-        entree = Entry(inputsFrame, textvariable=dfilterb["cregex_{0}".format(header)], width=size)
+        entree = tk.Entry(inputsFrame, textvariable=dfilterb["cregex_{0}".format(header)], width=size)
         entree.grid(row=3, column=count)
 
         #sort inputs
         dsort["csort_{0}".format(header)] = tk.BooleanVar() 
-        check2 = Checkbutton(inputsFrame, text='sort', width=size, var=dsort["csort_{0}".format(header)] )
+        check2 = tk.Checkbutton(inputsFrame, text='sort', width=size, var=dsort["csort_{0}".format(header)] )
         check2.grid(row=4, column=count)
         dfilterb["csort_{0}".format(header)] = tk.BooleanVar() 
-        check3 = Checkbutton(inputsFrame, text='asc (desc by dft)', width=size, var=dfilterb["csort_{0}".format(header)] )
+        check3 = tk.Checkbutton(inputsFrame, text='asc (desc by dft)', width=size, var=dfilterb["csort_{0}".format(header)] )
         check3.grid(row=5, column=count)
         
         count = count + 1 
 
     #set button compute and launch compute function when the user clic on it.
-    buttonCompute = Button(commandFrame, text="Compute", command = lambda: compute(dfdata, dfilterb, dsort, headers))
+    buttonCompute = tk.Button(commandFrame, text="Compute", command = lambda: compute(dfdata, dfilterb, dsort, headers))
     buttonCompute.place(relx=0.48, rely=0.1)
 
 
@@ -212,7 +212,7 @@ def saveFile(dfdata):
 ############################################################################################################################################################
 
 #main window     
-fenetre = Tk()
+fenetre = tk.Tk()
 fenetre.geometry('1920x1080')
 fenetre.resizable(1, 1)
 Title = fenetre.title( "Projet Python")
@@ -221,7 +221,7 @@ Title = fenetre.title( "Projet Python")
 commandFrame = ttk.LabelFrame(fenetre, text="Commande")
 commandFrame.place(relx=0, rely=0.02, height=50, width=1920)
 #button file, openFile function
-buttonFile = Button(commandFrame, text="File", command = openFile)
+buttonFile = tk.Button(commandFrame, text="File", command = openFile)
 buttonFile.place(relx=0.1, rely=0.1)
 
 #Inputs Panel

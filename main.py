@@ -10,7 +10,7 @@ import detectdelimiter
 from pathlib import Path
 
 ###################################################
-#Import file, set delimiter, find and convert dates
+#Import file
 ###################################################
 parser = argparse.ArgumentParser()
 parser.add_argument("-g", "--graphic", help="Indicate to open the program in graphical mode", action="store_true")  
