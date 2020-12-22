@@ -7,11 +7,6 @@ données : vous proposerez un menu déroulant avec les différents éléments pr
 programme permettra les recherches multicritères, ainsi que la sauvegarde des résultats,
 et l’export en CSV.
 
-## TODO
-- Update README
-- Rapport 
-- problèmes: performance GUI loops, date autodetect, interface not scrollable inputs
-
 ## Installation
 - python -m venv /path/to/project/env_name_of_the_project
 - git clone https://github.com/Lwiip/UTT-2020-python-project.git

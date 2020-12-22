@@ -17,7 +17,7 @@ def columnIsDate(df,headers):
         if isDate(i):
             columnheader = headers[count]
             #transforme type of the column to a date format
-            df[columnheader] = pd.to_datetime(df[columnheader], errors='coerce')
+            df[columnheader] = pd.to_datetime(df[columnheader], format=None, errors='ignore')
             count=count+1
         else:
             count=count+1
