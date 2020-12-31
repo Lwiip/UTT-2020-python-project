@@ -54,7 +54,7 @@ else:
 ##############################################################################
 #dataframe processing
 ##############################################################################
-dfdata = pd.read_csv(filename,sep=finaldelimiter,engine='python')
+dfdata = pd.read_csv(filename,sep=finaldelimiter)
 
 #Get list of headers from the file imported
 headers = list(dfdata.columns)

@@ -78,7 +78,6 @@ def setinputsGraphic(dfdata, headers):
     #init same model as dfilter command line but for button
     dfilterb = {}
     dsort = {}
-    asort = []
     
     #setup user inputs in the GUI
     for header in headers:
@@ -170,7 +169,7 @@ def openFile():
             ##############################################################################
             #dataframe processing
             ##############################################################################
-            dfdata = pd.read_csv(filename,sep=finaldelimiter,engine='python')
+            dfdata = pd.read_csv(filename,sep=finaldelimiter)
             #Get list of headers from the file imported
             headers = list(dfdata.columns)
             #auto detect dates and convert columns to date format if date
