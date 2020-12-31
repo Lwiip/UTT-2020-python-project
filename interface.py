@@ -162,7 +162,7 @@ def openFile():
             ############################################################################## 
             filename = file.name
             #List of predefined delimiters 
-            ddelimiters = {'doublecode':'"','ptvirgule':';', 'virgule':',', 'antislash':'\\', 'arobase':'@', 'pipe':'|'}
+            ddelimiters = {'doublecode':'"','ptvirgule':';', 'virgule':',', 'antislash':'\\', 'pipe':'|', 'slash':'/'}
             #Automatic detection delimiter 
             finaldelimiter = detectdelimiter.getautodelimiter(filename,ddelimiters)
 

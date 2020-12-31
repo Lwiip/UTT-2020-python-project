@@ -46,7 +46,7 @@ if args.delimiter:
     finaldelimiter = args.delimiter 
 else:
     #List of predefined delimiters 
-    ddelimiters = {'doublecode':'"','ptvirgule':';', 'virgule':',', 'antislash':'\\', 'arobase':'@', 'pipe':'|'}
+    ddelimiters = {'doublecode':'"','ptvirgule':';', 'virgule':',', 'antislash':'\\', 'pipe':'|', 'slash':'/'}
     #Automatic detection of the delimiter 
     finaldelimiter = detectdelimiter.getautodelimiter(filename,ddelimiters)
 
