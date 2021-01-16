@@ -15,5 +15,5 @@ def outfile_csv(outfilename,dfdata):
         os.remove(outfilename) 
 
     #Create the out file 
-    dfdata.to_csv(outfilename, header=True,index=False, encoding='utf-8', sep=';')
+    dfdata.to_csv(outfilename+".csv", header=True,index=False, encoding='utf-8', sep=';')
     print ("INFORMATION : The file",outfilename,"is created")

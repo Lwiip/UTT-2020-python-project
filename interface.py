@@ -200,7 +200,7 @@ def saveFile(dfdata):
                            title = "Save a file"
                            )
     #save the dataframe to a csv 
-    dfdata.to_csv(file.name, header=True,index=False, encoding='utf-8', sep=';')
+    dfdata.to_csv(file.name+".csv", header=True,index=False, encoding='utf-8', sep=';')
         
 
     
